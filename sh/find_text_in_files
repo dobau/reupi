@@ -1,0 +1,5 @@
+# Default
+grep "help" *.htm
+
+# Recursive
+grep -r "help" .

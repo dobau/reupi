@@ -1,0 +1,2 @@
+# Funcao equivalente ao NVL do oracle, retorna o valor do segundo parametro caso o valor seja NULL
+coalesce(campo, 0)
