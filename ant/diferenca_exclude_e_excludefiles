@@ -1,0 +1,2 @@
+excludesfiles: é o nome do arquivo sem poder usar wildcards <excludesfile name="HTMLParser.java" />
+excludes: pode ser utilizado um padrão para os arquivos por exemplo <exclude name="**/*Test*"/>
