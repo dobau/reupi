@@ -1,0 +1,2 @@
+-- Criar link em markdown
+[texto] (url_do_link "texto_opcional")

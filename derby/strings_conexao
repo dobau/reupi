@@ -1,0 +1,16 @@
+-- Strings de conexao
+
+-- create a file system database
+jdbc:derby:sampleDB;create=true
+-- create a file system database using the databaseName attribute
+jdbc:derby:;databaseName=newDB;create=true
+-- create an in-memory database using the embedded driver
+jdbc:derby:memory:myInMemDB;create=true
+-- create an in-memory database using the databaseName attribute
+jdbc:derby:;databaseName=memory:myInMemDB;create=true
+-- create an in-memory database using the Network Server
+jdbc:derby://localhost:1527/memory:myInMemDB;create=true
+-- load backup in memory
+jdbc:derby:memory:myInMemDB;createFrom=<url>
+-- shutdown database
+jdbc:derby:memory:myInMemDB;shutdown=true

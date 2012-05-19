@@ -1,0 +1,7 @@
+--Create backup
+
+CallableStatement cs = conn.prepareCall
+("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)");
+cs.setString(1, "c:/copia_seguranca");
+cs.execute();
+cs.close();

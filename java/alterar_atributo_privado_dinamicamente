@@ -1,0 +1,4 @@
+-- Change private field
+
+class.getDeclaredField("campo").setAcessible("true").set(obj, valor);
+

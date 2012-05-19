@@ -1,0 +1,2 @@
+-- Consulta que mostra as tabelas criadas
+SELECT * FROM sys.sysschemas s, sys.systables t WHERE s.schemaid = t.schemaid and t.tabletype = 'T'

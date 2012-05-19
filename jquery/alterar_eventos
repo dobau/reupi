@@ -1,0 +1,6 @@
+$('#myimage').click(function() { return false; }); // Adds another click event
+$('#myimage').off('click');
+$('#myimage').on('click.mynamespace', function() { /* Do stuff */ });
+$('#myimage').off('click.mynamespace');
+$('#myimage').unbind('click'); // Remove todas os eventos de click
+
