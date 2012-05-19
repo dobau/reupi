@@ -1,0 +1,2 @@
+1 - remove a tag local e depois executa o comando
+git push origin :ref\tags\<nome da tag>
