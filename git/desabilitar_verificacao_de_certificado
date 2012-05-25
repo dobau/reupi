@@ -1,0 +1,4 @@
+-- Desabilitar verificação de certificado
+git config --global http.sslVerify false
+ou
+SET GIT_SSL_NO_VERIFY=true

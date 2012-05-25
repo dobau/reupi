@@ -1,0 +1,2 @@
+-- Configurar CA
+git config --system http.sslcainfo /bin/curl-ca-bundle.crt

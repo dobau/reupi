@@ -1,0 +1,2 @@
+-- Configurando repositorio por https
+git clone https://<user>@github.com/<user>/<project>.git

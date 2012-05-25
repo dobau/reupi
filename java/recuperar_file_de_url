@@ -1,0 +1,7 @@
+// Recuperar file de URL
+File file;
+try {
+    file = new File(url.toURI());
+} catch(Exception ex) {
+    file = new File(url.getPath());
+}
