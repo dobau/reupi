@@ -1,0 +1,12 @@
+.row-file {
+
+}
+
+.row-file .type {
+	width: 30px;
+	border-right: 0px;
+}
+
+.row-file .name {
+	border-left: 0px;
+}
