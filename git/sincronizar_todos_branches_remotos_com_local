@@ -1,0 +1,4 @@
+-- Sincronizar branches remote e local
+
+git remote update
+git pull --all
