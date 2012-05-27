@@ -4,6 +4,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
 		<link href="css/reupi.css" rel="stylesheet" type="text/css" />
+		<meta charset="UTF-8" />
 	</head>
 	<body>
 		<div class="content">
@@ -13,7 +14,7 @@
 				<div class="row">
 					<div class="hero-unit">
 					  <h1>Reupi</h1>
-					  <p>Um conjunto de cÛdigo que j· precisei algum dia....</p>
+					  <p>Um conjunto de c√≥igo que j√° precisei um dia, e que com certeza irei precisar novamente! Para n√£o perder mais tanto tempo procurando no google, resolvi montar esse invent√≥rio....</p>
 					</div>
 				</div>
 			
@@ -41,76 +42,9 @@
 			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script src="http://balupton.github.com/jquery-syntaxhighlighter/scripts/jquery.syntaxhighlighter.min.js"></script>
 		<script src="js/github.js"></script>
-		<script src="js/other.js"></script>
-		<script>
-			//(function() {
-				var tree = $("#tree");
-			
-				var user = "dobau";
-				var repo = "reupi";
-				
-				var dobau = gh.user(user);
-				var reupi = gh.repo(user, repo);
-				
-				function showTree(sha, shaParent) {
-					tree.empty();
-					
-					if (shaParent) {
-						var name = $("<tr class='row-file'/>")
-											.append("<td class='type'><i class='icon-folder-open' /></td>")
-											.append("<td class='name'>..</td>");
-						tree.append(name);
-						name.click(function() {
-							showTree(shaParent);
-						});
-					}
-				
-					var obj = gh.object(user, repo);
-					obj.tree(sha, function(response) {
-						$.each(response.tree, function(index, file) {
-						console.log(file);
-							var type;
-							
-							if (file.type == "tree") {
-								type = $("<i>").addClass("icon-folder-open");
-							} else if (file.type == "blob") {
-								type = $("<i>").addClass("icon-file");
-							}
-						
-							var row = $("<tr class='row-file'>")
-											.append($("<td class='type'>").append(type))
-											.append($("<td class='name'>").text(file.name));
-											//.append($("td").text(file.description));
-							
-							if (file.type == "tree") {
-								row.click(function() {
-									showTree(file.sha, sha);
-								});
-							}
-							
-							tree.append(row);
-						})
-					});
-				}
-				
-				function showError(msg) {
-					tree.children().remove();
-					tree.text(msg);
-					tree.css({color: "red"});
-				}
-				
-				reupi.branches(function(response) {	
-					tree.children().remove();
-				
-					if (response && response.branches && response.branches.master) {
-						showTree(response.branches.master);
-					} else {
-						showError("Erro ao carregar informaÁıes do github!");
-					}
-				})
-				
-			//})();
-		</script>
+		<script src="js/reupi.js"></script>
+		<script src="js/others.js"></script>
 	</body>
 </body>
