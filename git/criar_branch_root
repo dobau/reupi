@@ -1,0 +1,13 @@
+# Cria branch root
+
+# CUIDADO: não deve existir nada a ser comitado ou stash no diretorio que vai ser executado os comandos, pois tudo ser perdido
+
+cd /path/to/fancypants
+git symbolic-ref HEAD refs/heads/gh-pages
+rm .git/index
+git clean -fdx
+
+echo "My GitHub Page" > index.html
+git add .
+git commit -a -m "First pages commit"
+git push origin gh-pages
