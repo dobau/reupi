@@ -60,6 +60,7 @@
                                                         .append("<b>"+path+"</b><br>")
                                                         .append($("<pre class='highlight'>")
                                                                         .append(response.blob.data))));
+								$.SyntaxHighlighter.init();
                         } else {
                                 showError("Erro ao carregar arquivo "+path);
                         }
@@ -101,3 +102,11 @@
         }
         
 })();
+
+// geral  
+$(function() {
+	$.SyntaxHighlighter.init({
+		'wrapLines': true,
+		'lineNumbers': false
+	});
+});

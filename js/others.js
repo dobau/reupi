@@ -20,11 +20,3 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
   })();
 })();
-
-// geral  
-(function() {
-  $.SyntaxHighlighter.init({
-    'wrapLines':false,
-    'lineNumbers': false
-  });
-})();
