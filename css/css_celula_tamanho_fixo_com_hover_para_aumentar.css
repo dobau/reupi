@@ -1,0 +1,12 @@
+-- CSS para deixar uma célula com tamanho fixo, porém quando o usuário passa o mouse por cima é apresentado todo o conteúdo
+td.tema-title div {
+    width: 435px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+ 
+td.tema-title div:hover {
+    overflow: visible;
+    word-break: break-all;
+}

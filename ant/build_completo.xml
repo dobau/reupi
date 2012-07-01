@@ -1,0 +1,481 @@
+<project name="wsvp" basedir="." default="dist">
+	<description>Vale Pedágio Build</description>
+
+	<property environment="env" />
+	<property file="build.properties" />
+	<property name="config.dir" location="config/${ambiente}" />
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="target" />
+	<property name="dist.dir" location="dist" />
+	<property name="dist.dir.parceiro" location="dist_parceiro" />
+	<property name="webinf.dir" value=".\WebContent\WEB-INF" />
+	<property name="classes.dir" location="${webinf.dir}\classes" />
+	<property name="lib.app" value="${webinf.dir}\lib" />
+	<property name="lib.tomcat" value="${tomcat.home}\common\lib" />
+	<property name="lib.test" value="config/test/lib" />
+	<property name="test.dir" value="config/test" />
+	<property name="report.dir" value="report" />
+
+	<property name="dependency.classes.dir" location="${build.dir}\bin" />
+
+	<target name="configure.dependency.ci" if="ci">
+		<property name="dependency.source.dir" location="${dependency.jenkins.dir}\src" />
+		<property name="dependency.test.dir" location="${dependency.jenkins.dir}\test" />
+	</target>
+
+	<target name="configure.dependency.default" unless="ci">
+		<property name="dependency.source.dir" location="${dependency.dir}\src" />
+		<property name="dependency.test.dir" location="${dependency.dir}\test" />
+	</target>
+
+	<taskdef resource="axis-tasks.properties">
+		<classpath>
+			<fileset dir="${lib.app}">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask">
+		<classpath>
+			<fileset dir="${lib.test}">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="init" depends="configure.dependency.ci, configure.dependency.default">
+		<tstamp />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/${project.name}" />
+		<mkdir dir="${build.dir}/${project.name}/wsdl/" />
+		<mkdir dir="${build.dir}/${project.name}/WEB-INF" />
+		<mkdir dir="${build.dir}/${project.name}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/${project.name}/WEB-INF/lib" />
+
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile Source">
+		<mkdir dir="${classes.dir}" />
+		<javac target="1.6" source="1.6" srcdir="${src.dir}" destdir="${classes.dir}" optimize="on" deprecation="on" debug="on">
+			<classpath>
+				<fileset dir="${lib.app}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.tomcat}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${classes.dir}" overwrite="true">
+			<fileset dir="${src.dir}" excludes="**/*.java"/>
+			<fileset dir="${config.dir}" excludes="META-INF/" />
+		</copy>
+	</target>
+
+	<target name="compile.dependency" depends="init" description="Compile Source">
+		<mkdir dir="${dependency.classes.dir}" />
+		<javac target="1.6" source="1.6" srcdir="${dependency.source.dir}" destdir="${dependency.classes.dir}" optimize="on" deprecation="on" debug="on">
+			<classpath>
+				<fileset dir="${lib.app}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.tomcat}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${dependency.classes.dir}">
+			<fileset dir="${dependency.source.dir}" excludes="**/*.java"/>
+		</copy>
+		<copy todir="${dependency.classes.dir}" overwrite="true">
+			<fileset dir="${src.dir}" excludes="**/*.java"/>
+			<fileset dir="${config.dir}" />
+		</copy>
+	</target>
+
+	<target name="jar.dependency" depends="compile.dependency" description="Criando jar de dependencias">
+		<jar destfile="${build.dir}/${dependency.project.jar.name}">
+			<zipfileset dir="${dependency.classes.dir}" />
+		</jar>
+	</target>
+
+	<property name="endpoint.package.structure" value="com.cgmp" />
+	<property name="host" value="localhost" />
+	<property name="port" value="80" />
+	<property name="service.namespace" value="http://cgmp.com" />
+	<property name="endpoint-stub.wsdd" value="deploy.wsdd" />
+	<property name="generated.package.structure" value="com.cgmp" />
+	<property name="build.dir.axis" value="${build.dir}/${project.name}/WEB-INF" />
+
+	<target name="generate-wsdl" depends="prepare-libs">
+		<property name="wsdl.name" value="${build.dir}/${project.name}/wsdl/${service.name}.wsdl" />
+		<delete file="${wsdl.name}"/>
+		<axis-java2wsdl classname="${endpoint.package.structure}.${service.name}"
+			style="RPC"
+			namespace="${service.namespace}"
+			location="http://${host}:${port}/axis/services/${service.name}"
+			output="${wsdl.name}">
+
+			<classpath>
+				<fileset dir="${build.dir}/${project.name}/WEB-INF/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.tomcat}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+
+		</axis-java2wsdl>
+	</target>
+
+	<target name="generate-wsdl-parceiro">
+		<property name="service.name" value="ValePedagioSTP" />
+		<antcall target="generate-wsdl"/>
+	</target>
+
+	<target name="generate-wsdl-site">
+		<property name="service.name" value="ValePedagioSite" />
+		<antcall target="generate-wsdl"/>
+	</target>
+
+	<target name="generate-wsdl-cliente-parceiro">
+		<property name="service.name" value="ValePedagio" />
+		<antcall target="generate-wsdl"/>
+	</target>
+
+	<target name="generate-wsdd" depends="generate-wsdl">
+		<property name="wsdl.name" value="${build.dir}/${project.name}/wsdl/${service.name}.wsdl" />
+		<mkdir dir="${build.dir.axis}"/>
+		<mkdir dir="${build.dir.axis}/${service.name}"/>
+		<axis-wsdl2java
+				output="${build.dir.axis}/${service.name}"
+				verbose="false"
+				url="${wsdl.name}" serverside="true"
+				debug="false">
+
+			<mapping namespace="${service.namespace}" package="${generated.package.structure}"/>
+		</axis-wsdl2java>
+		<delete includeemptydirs="true">
+			<fileset dir="${build.dir.axis}/${service.name}">
+				<exclude name="**/*.wsdd"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="generate-wsdd-parceiro">
+		<property name="service.name" value="ValePedagioSTP" />
+		<antcall target="generate-wsdd"/>
+	</target>
+
+	<target name="generate-wsdd-site">
+		<property name="service.name" value="ValePedagioSite" />
+		<antcall target="generate-wsdd"/>
+	</target>
+
+	<target name="generate-wsdd-cliente-parceiro">
+		<property name="service.name" value="ValePedagio" />
+		<antcall target="generate-wsdd"/>
+	</target>
+
+	<target name="processa-deploy.wsdd">
+		<xslt style="config/axis-server-config.wsdd.xsl"
+			basedir="${build.dir}/${project.name}/WEB-INF"
+			destdir="${build.dir}/${project.name}/WEB-INF"
+			extension="_gen.wsdd">
+			<include name="**/deploy.wsdd"/>
+		</xslt>
+	</target>
+
+	<target name="remove-deploy_gen.wsdd">
+		<delete>
+			<fileset dir="${build.dir}/${project.name}/WEB-INF">
+				<include name="**/*_gen.wsdd"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="generate-server-config.wsdd">
+		<antcall target="generate-wsdd-site" />
+		<antcall target="generate-wsdd-cliente-parceiro" />
+
+		<antcall target="processa-deploy.wsdd" />
+
+		<concat destfile="${build.dir}/${project.name}/WEB-INF/server-config.wsdd">
+			<filelist dir="config" files="header.txt" />
+			<fileset dir="${build.dir}/${project.name}/WEB-INF">
+				<include name="**/ValePedagioSite/**/deploy_gen.wsdd"/>
+				<include name="**/ValePedagio/**/deploy_gen.wsdd"/>
+			</fileset>
+			<filelist dir="config" files="footer.txt" />
+		</concat>
+
+		<antcall target="remove-deploy_gen.wsdd" />
+
+	</target>
+
+	<target name="homolog-generate-parceiro-server-config.wsdd">
+		<antcall target="generate-wsdd-parceiro" />
+		<antcall target="generate-wsdd-site" />
+		<antcall target="generate-wsdd-cliente-parceiro" />
+
+		<antcall target="processa-deploy.wsdd" />
+
+		<concat destfile="${build.dir}/${project.name}/WEB-INF/server-config.wsdd">
+			<filelist dir="config" files="header.txt" />
+			<fileset dir="${build.dir}/${project.name}/WEB-INF">
+				<include name="**/ValePedagioSTP/**/deploy_gen.wsdd"/>
+				<include name="**/ValePedagioSite/**/deploy_gen.wsdd"/>
+				<include name="**/ValePedagio/**/deploy_gen.wsdd"/>
+			</fileset>
+			<filelist dir="config" files="footer.txt" />
+		</concat>
+
+		<antcall target="remove-deploy_gen.wsdd" />
+	</target>
+
+	<target name="generate-parceiro-server-config.wsdd">
+		<antcall target="generate-wsdd-parceiro" />
+
+		<antcall target="processa-deploy.wsdd" />
+
+		<concat destfile="${build.dir}/${project.name}/WEB-INF/server-config.wsdd">
+			<filelist dir="config" files="header.txt" />
+			<fileset dir="${build.dir}/${project.name}/WEB-INF">
+				<include name="**/ValePedagioSTP/**/deploy_gen.wsdd"/>
+			</fileset>
+			<filelist dir="config" files="footer.txt" />
+		</concat>
+
+		<antcall target="remove-deploy_gen.wsdd" />
+	</target>
+
+	<target name="generate-DEV-server-config.wsdd">
+		<antcall target="generate-wsdd-site" />
+		<antcall target="generate-wsdd-cliente-parceiro" />
+		<antcall target="generate-wsdd-parceiro" />
+
+		<antcall target="processa-deploy.wsdd" />
+
+		<concat destfile="WebContent/WEB-INF/server-config.wsdd">
+			<filelist dir="config" files="header.txt" />
+			<fileset dir="${build.dir}/${project.name}/WEB-INF">
+				<include name="**/ValePedagioSite/**/deploy_gen.wsdd"/>
+				<include name="**/ValePedagio/**/deploy_gen.wsdd"/>
+				<include name="**/ValePedagioSTP/**/deploy_gen.wsdd"/>
+			</fileset>
+			<filelist dir="config" files="footer.txt" />
+		</concat>
+
+		<antcall target="remove-deploy_gen.wsdd" />
+
+	</target>
+
+	<target name="deploy">
+		<axis-admin
+		    port="${port}"
+		    hostname="${host}"
+		    failonerror="true"
+		    servletpath="axis/services/AdminService"
+		    debug="true"
+		    xmlfile="${build.dir.axis}/${service.name}/com/cgmp/${endpoint-stub.wsdd}"
+		    />
+	</target>
+
+	<target name="prepare-libs" depends="init, jar.dependency">
+		<copy  todir="${build.dir}/${project.name}/WEB-INF/lib">
+			<fileset file=".\WebContent\WEB-INF\lib\*.*" />
+			<fileset file="${build.dir}/${dependency.project.jar.name}" />
+		</copy>
+	</target>
+
+	<target name="dist" depends="prepare-libs, compile, generate-server-config.wsdd" description="Criando war">
+		<copy  todir="${build.dir}/${project.name}/WEB-INF">
+			<fileset file=".\WebContent\WEB-INF\web.xml" />
+		</copy>
+		<copy todir="${build.dir}/${project.name}/WEB-INF/classes">
+			<fileset dir="${webinf.dir}/classes" />
+		</copy>
+		<war destfile="${dist.dir}/${project.war.name}" webxml="${build.dir}/${project.name}/WEB-INF/web.xml">
+			<zipfileset dir="${build.dir}/${project.name}">
+			    <include name="WEB-INF/classes/"/>
+			    <include name="WEB-INF/lib/"/>
+			    <include name="WEB-INF/server-config.wsdd"/>
+			    <include name="WEB-INF/web.xml"/>
+			</zipfileset>
+		</war>
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="dist.parceiro" depends="prepare-libs, compile,generate-parceiro-server-config.wsdd" description="Criando war para parceiro">
+		<copy  todir="${build.dir}/${project.name}/WEB-INF">
+			<fileset file=".\WebContent\WEB-INF\web.xml" />
+		</copy>
+		<copy todir="${build.dir}/${project.name}/WEB-INF/classes">
+			<fileset dir="${webinf.dir}/classes" />
+		</copy>
+		<war destfile="${dist.dir.parceiro}/${project.war.name}" webxml="${build.dir}/${project.name}/WEB-INF/web.xml">
+			<zipfileset dir="${build.dir}/${project.name}">
+			    <include name="WEB-INF/classes/"/>
+			    <include name="WEB-INF/lib/"/>
+			    <include name="WEB-INF/server-config.wsdd"/>
+			    <include name="WEB-INF/web.xml"/>
+			</zipfileset>
+		</war>
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="dist.parceiro.homolog" depends="prepare-libs, compile, homolog-generate-parceiro-server-config.wsdd" description="Criando war para parceiro">
+		<copy  todir="${build.dir}/${project.name}/WEB-INF">
+			<fileset file=".\WebContent\WEB-INF\web.xml" />
+		</copy>
+		<copy todir="${build.dir}/${project.name}/WEB-INF/classes">
+			<fileset dir="${webinf.dir}/classes" />
+		</copy>
+		<war destfile="${dist.dir.parceiro}/${project.war.name}" webxml="${build.dir}/${project.name}/WEB-INF/web.xml">
+			<zipfileset dir="${build.dir}/${project.name}">
+			    <include name="WEB-INF/classes/"/>
+			    <include name="WEB-INF/lib/"/>
+			    <include name="WEB-INF/server-config.wsdd"/>
+			    <include name="WEB-INF/web.xml"/>
+			</zipfileset>
+		</war>
+		<delete dir="${build.dir}" />
+	</target>
+
+    <target name="dist.ci">
+    	<property name="ci" value="true" />
+		<antcall target="test" />
+		<antcall target="report" />
+		<antcall target="dist" />
+		<antcall target="dist.parceiro" />
+    </target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${classes.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${dist.dir.parceiro}" />
+		<delete dir="${report.dir}" />
+		<delete dir="${cobertura.ser}" />
+	</target>
+
+	<target name="compile.test.dependency" depends="init" description="Compile Source">
+		<mkdir dir="${dependency.classes.dir}" />
+		<javac target="1.6" source="1.6" srcdir="${dependency.test.dir}/unit" destdir="${dependency.classes.dir}" optimize="on" deprecation="on" debug="on">
+			<classpath>
+				<fileset dir="${lib.app}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.tomcat}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.test}">
+					<include name="**/*.jar" />
+				</fileset>
+				<pathelement location="${dependency.classes.dir}" />
+			</classpath>
+		</javac>
+		<copy todir="${dependency.classes.dir}">
+			<fileset dir="${dependency.test.dir}/unit" excludes="**/*.java"/>
+		</copy>
+	</target>
+
+	<!-- Cobertura configs -->
+	<property name="cobertura.instrumented-classes.dir" value="${report.dir}/instrumented-classes" />
+	<property name="cobertura.data.file" value="cobertura.ser" />
+	<path id="cobertura.classpath">
+		<fileset dir="${lib.app}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${lib.tomcat}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${lib.test}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${dependency.classes.dir}" />
+	</path>
+
+	<taskdef classpath="${lib.test}/cobertura.jar" resource="tasks.properties" classpathref="cobertura.classpath" />
+
+	<target name="instrument" depends="compile.dependency, compile.test.dependency">
+	    <delete quiet="false" failonerror="false">
+	        <fileset dir="${cobertura.instrumented-classes.dir}" />
+	    </delete>
+	    <delete file="${cobertura.data.file}" />
+	    <cobertura-instrument todir="${cobertura.instrumented-classes.dir}">
+	        <fileset dir="${dependency.classes.dir}">
+	            <include name="**/*.class" />
+	            <exclude name="**/*Test.class" />
+	        </fileset>
+	    </cobertura-instrument>
+	    <copy todir="${cobertura.instrumented-classes.dir}">
+	        <fileset dir="${dependency.source.dir}" casesensitive="yes">
+	            <patternset id="resources.ps" />
+	        </fileset>
+	    </copy>
+	</target>
+
+	<target name="test" depends="instrument" description="Testa wsValePedagio">
+    	<mkdir dir="${report.dir}/test/unit" />
+		<junit printsummary="yes" haltonerror="no" haltonfailure="no" fork="yes">
+			<classpath>
+				<pathelement location="${cobertura.instrumented-classes.dir}" />
+				<pathelement location="${dependency.classes.dir}" />
+				<pathelement location="${test.dir}" />
+				<fileset dir="${lib.app}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${lib.test}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+	        <batchtest fork="true" todir="${report.dir}/test/unit">
+	            <fileset dir="${dependency.test.dir}/unit" includes="**/*Test.java">
+	            	<exclude name="**/*AllTest.java"/>
+	            	<exclude name="**/*AbstractTest.java"/>
+	            	<exclude name="**/DefaultPersistenceTest.java"/>
+            	</fileset>
+	            <formatter type="xml"/>
+	        </batchtest>
+	    </junit>
+		<delete file="transaction.log" />
+	</target>
+
+	<target name="report" depends="test">
+	    <cobertura-report srcdir="${cobertura.data.file}" destdir="${report.dir}/cobertura/html">
+	        <fileset dir="${dependency.source.dir}">
+	            <include name="**/*.java" />
+	        </fileset>
+	    </cobertura-report>
+
+	    <cobertura-report srcdir="${cobertura.data.file}" destdir="${report.dir}/cobertura/xml" format="xml" >
+	        <fileset dir="${dependency.source.dir}">
+	            <include name="**/*.java" />
+	        </fileset>
+	    </cobertura-report>
+
+	    <delete dir="${report.dir}/instrumented-classes" />
+	    <delete file="cobertura.ser"  />
+	</target>
+
+	<target name="test-jmeter">
+		<mkdir dir="${report.dir}/jmeter"/>
+
+		<jmeter
+		    jmeterhome="${jmeter.home}"
+		    resultlog="${report.dir}/jmeter/JMeterResults.jtl">
+			<testplans dir="${test.dir}/jmeter" includes="*.jmx"/>
+			<property name="jmeter.save.saveservice.assertion_results" value="all"/>
+			<property name="jmeter.save.saveservice.output_format" value="xml"/>
+		</jmeter>
+
+		<xslt
+		    in="${report.dir}/jmeter/JMeterResults.jtl"
+		    out="${report.dir}/jmeter/JMeterResults.html"
+		    style="${test.dir}/xls/jmeter-results-report.xsl"/>
+	</target>
+
+</project>

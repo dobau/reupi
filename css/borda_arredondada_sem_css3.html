@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Borda Arredondada sem utilizar imagens</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<style>
+.bordaBox {bbackground: ttransparent; width:30%;}
+.bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b4, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b, .bordaBox .b4b {display:block; overflow:hidden; font-size:1px;}
+.bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b {height:1px;}
+.bordaBox .b2, .bordaBox .b3, .bordaBox .b4 {background:#CECECE; border-left:1px solid #999; border-right:1px solid #999;}
+.bordaBox .b1 {margin:0 5px; background:#999;}
+.bordaBox .b2 {margin:0 3px; border-width:0 2px;}
+.bordaBox .b3 {margin:0 2px;}
+.bordaBox .b4 {height:2px; margin:0 1px;}
+.bordaBox .conteudo {padding:5px;display:block; background:#CECECE; border-left:1px solid #999; border-right:1px solid #999;}
+</style>
+<body>
+
+<div class="bordaBox">
+<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
+<div class="conteudo">
+Box com bordas arredondadas sem utilizar imagens<br />Fácil utilização e implementação com CSS puro!
+</div>
+<b class="b4"></b><b class="b3"></b><b class="b2"></b><b class="b1"></b>
+</div>
+
+</body>
+</html>

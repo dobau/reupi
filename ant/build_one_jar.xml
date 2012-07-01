@@ -1,0 +1,60 @@
+<project name="gerarRotas" basedir="." default="dist">
+	<description>Mapeamento Rotas Build</description>
+
+	<property environment="env" />
+	<property file="build.properties" />
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="target" />
+	<property name="dist.dir" location="dist" />
+	<property name="classes.dir" location="${build.dir}\classes" />
+	<property name="lib.app" value=".\lib" />
+	<property name="config.dir" value=".\config\${ambiente}" />
+
+	<taskdef name="one-jar"
+        classpath="${lib.app}/one-jar-ant-task-0.97.jar"
+        classname="com.simontuffs.onejar.ant.OneJarTask" />
+
+	<target name="init">
+		<tstamp />
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile Source">
+		<mkdir dir="${classes.dir}" />
+		<javac target="1.6" source="1.6" srcdir="src" destdir="${classes.dir}" optimize="on" deprecation="on" debug="on">
+			<classpath>
+				<fileset dir="${lib.app}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="Generate the distribution">
+		<mkdir dir="${dist.dir}" />
+		<tstamp>
+			<format property="now" pattern="dd/MM/yyyy HH:mm:ss" />
+		</tstamp>
+		<one-jar destfile="${dist.dir}/${project.jar.name}" onejarmainclass="com.cgmp.App">
+			<manifest>
+              <attribute name="Built-By" value="${user.name}"/>
+              <attribute name="Built-Date" value="${now}"/>
+		    </manifest>
+			<main>
+				<fileset dir="${classes.dir}"/>
+				<fileset dir="${config.dir}"/>
+			</main>
+			<lib>
+                <fileset dir="${lib.app}" includes="**/*.jar" />
+            </lib>
+		</one-jar>
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${classes.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+</project>

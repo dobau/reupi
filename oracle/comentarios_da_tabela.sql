@@ -1,0 +1,2 @@
+-- Comentários no oracle
+SELECT * FROM ALL_COL_COMMENTS WHERE TABLE_NAME = '<NOME_DA_TABELA>'

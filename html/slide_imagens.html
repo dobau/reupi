@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<style type="text/css">
+.fp-slider{margin:5px 0px;height:332px;overflow:hidden;position:relative;padding: 2px; border-radius: 4px; -webkit-box-shadow:inset 0 1px 4px rgba(0,0,0,.4); -moz-box-shadow:inset 0 1px 4px rgba(0,0,0,.4); box-shadow:inset 0 1px 4px rgba(0,0,0,.4);background: #F2F2F2;}
+.fp-slides-container{}
+.fp-slider, .fp-slides,.fp-thumbnail,.fp-prev-next,.fp-nav{width:1190px}
+.fp-slides,.fp-thumbnail{height:300px;overflow:hidden;position:relative}
+.fp-title{color:#fff;text-shadow:0px 1px 0px #000;font:bold 18px Arial,Helvetica,Sans-serif;padding:0 0 2px 0;margin:0}
+.fp-title a,.fp-title a:hover{color:#fff;text-shadow:0px 1px 0px #000;text-decoration:none}
+.fp-content{position:absolute;bottom:0;left:0;right:0;background:#111;opacity:0.7;filter:alpha(opacity = 70);padding:10px 15px;overflow:hidden}
+.fp-content p{color:#fff;text-shadow:0px 1px 0px #000;padding:0;margin:0;line-height:18px}
+.fp-more,.fp-more:hover{color:#fff;text-shadow:0px 1px 0px #000;font-weight:bold}
+.fp-nav{height:12px;text-align:center;padding:10px 0;background:#F2F2F2}
+.fp-pager a{background-image:url(http://images.apple.com/global/elements/buttons/dots_08c.png);cursor:pointer;margin:0 8px 0 0;padding:0;display:inline-block;width:15px;height:15px;overflow:hidden;text-indent:-999px;background-position:0 0;float:none;line-height:1;opacity:0.7;}
+.fp-pager a:hover,.fp-pager a.activeSlide{text-decoration:none;opacity:1.0;filter:alpha(opacity = 100)}
+.fp-pager a:hover {background-position:0 -15px;}
+.fp-pager a.activeSlide {background-position:0 -30px;}
+.fp-prev-next-wrap{position:relative;z-index:200}
+.fp-prev-next{position:absolute;bottom:130px;left:0;right:0;height:37px}
+.fp-prev{margin-top:-180px;float:left;margin-left:14px;width:37px;height:37px;background:url(http://3.bp.blogspot.com/-CLN4y-oG2Hs/T9a3YxB08II/AAAAAAAAD3A/zZz_QB1np4k/s000/featured-prev.png) left top no-repeat;opacity:0.6;filter:alpha(opacity = 60)}
+.fp-prev:hover{opacity:0.8;filter:alpha(opacity = 80)}
+.fp-next{margin-top:-180px;float:right;width:36px;height:37px;margin-right:14px;background:url(http://2.bp.blogspot.com/-B61RzmRbEKk/T9a3ZHIfk5I/AAAAAAAAD3I/ehMLJwAhWgQ/s000/featured-next.png) right top no-repeat;opacity:0.6;filter:alpha(opacity = 60)}
+.fp-next:hover{opacity:0.8;filter:alpha(opacity = 80)}
+
+
+
+		</style>
+	</head>
+	<body>
+
+
+		<div class="fp-slider clearfix">
+		    <div class="fp-slides-container clearfix">
+				<div class="fp-slides">
+
+					<!-- Slide 1 Code Start -->
+					<div class="fp-slides-items">
+						<div class="fp-thumbnail"><a href="#"><img src="http://1.bp.blogspot.com/-_3j75FXfzvU/T9a3ZRhsMzI/AAAAAAAAD3Q/6v-ZeIeRWUo/s000/1.jpg" /></a></div>
+						<div class="fp-content-wrap">
+							<div class="fp-content">
+								<h3 class="fp-title"><a href="#">This is default featured slide 1 title</a></h3>
+								<p>Go to Blogger edit html and find these sentences.Now replace these sentences with your own descriptions.</p>
+							</div>
+							<div class="fp-prev-next-wrap clearfix"><a class="fp-next" href="#fp-next"></a><a class="fp-prev" href="#fp-prev"></a></div>
+						</div>
+					</div>
+					<!-- Slide 1 Code End -->
+
+					<!-- Slide 2 Code Start -->
+					<div class="fp-slides-items">
+						<div class="fp-thumbnail"><a href="#"><img src="http://1.bp.blogspot.com/-_3j75FXfzvU/T9a3ZRhsMzI/AAAAAAAAD3Q/6v-ZeIeRWUo/s000/1.jpg" /></a></div>
+						<div class="fp-content-wrap">
+							<div class="fp-content">
+								<h3 class="fp-title"><a href="#">This is default featured slide 2 title</a></h3>
+								<p>asdasdasdasd</p>
+							</div>
+							<div class="fp-prev-next-wrap clearfix"><a class="fp-next" href="#fp-next"></a><a class="fp-prev" href="#fp-prev"></a></div>
+						</div>
+					</div>
+					<!-- Slide 2 Code End -->
+
+				</div>
+
+				<div class="fp-nav">
+					<span class="fp-pager" />
+				</div>
+		    </div>
+		</div>
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
+		<script type="text/javascript">
+			jQuery.noConflict();
+
+			jQuery(document).ready(function() {
+				jQuery('.fp-slides').cycle({
+					fx: 'fade',
+					timeout: 4000,
+					delay: 0,
+					speed: 1000,
+					next: '.fp-next',
+					prev: '.fp-prev',
+					pager: '.fp-pager',
+					continuous: 0,
+					sync: 1,
+					pause: 1,
+					pauseOnPagerHover: 1,
+					cleartype: true,
+					cleartypeNoBg: true
+				});
+			 });
+		</script>
+	</body>
+</html>

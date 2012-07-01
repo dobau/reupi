@@ -1,0 +1,39 @@
+<html>
+<body>
+<div id="hora"></div>
+</body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
+<script type="text/javascript">
+var contadorRegressivo = {
+    interval: null,
+
+	/**
+	 * Hora inicial do cronometro
+	 */
+	horaInicial : new Date().getTime() + 30*60*1000,
+
+	/**
+	 * Atualiza o texto
+	 */
+	refresh : function(campo) {
+	    var diferenca = this.horaInicial - new Date().getTime();
+
+		if (diferenca >= 0) {
+			var hora = new Date(diferenca);
+			$(campo).text(hora.getMinutes() + ":" + hora.getSeconds());
+		} else {
+			clearInterval(this.interval);
+		}
+	},
+	run: function(campo) {
+		this.interval = setInterval(function() {
+			contadorRegressivo.refresh(campo);
+		}, 1*1000);
+	}
+}
+
+$(function(){
+	contadorRegressivo.run("#hora");
+});
+</script>
+</html>

@@ -1,0 +1,11 @@
+-- jmeter
+Conifgura User defined variables com ${__P(<variavel>, <valor_default>)}
+no ant configura 
+
+		<jmeter
+		    jmeterhome="${jmeter.home}"
+		    resultlog="${report.dir}/jmeter/JMeterResults.jtl">
+			<testplans dir="${test.dir}/jmeter" includes="1.jmx"/>
+
+			<property name="<variavel>" value="<valor>"/>
+</jmeter>
