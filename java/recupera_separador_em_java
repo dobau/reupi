@@ -1,0 +1,2 @@
+-- Propriedades de seprador de diretorio de ambiente do SO em java
+System.getProperty("file.separator")

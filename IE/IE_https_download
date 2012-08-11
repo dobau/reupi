@@ -1,0 +1,5 @@
+-- IE x https x download
+if (isset($_SERVER["HTTPS"])) {
+	header(“Pragma: Public“);
+	header(“Cache-Control: Public“);
+}
