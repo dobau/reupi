@@ -1,38 +1,18 @@
-(function() {
+(function(window) {
         var tree = $("#tree");
 
-        var user = "dobau";
-        var repo = "reupi";
-        
-        var dobau = gh.user(user);
-        var reupi = gh.repo(user, repo);
-        var obj = gh.object(user, repo);
-        
+        var dobau = new Gh3.User("dobau");
+        var reupi = new Gh3.Repository("reupi", dobau);
         var shaParents = [];
-        
-        reupi.branches(function(response) {	
-                tree.empty();
-        
-                if (response && response.branches && response.branches.master) {
-                        showTree(response.branches.master);
-                } else {
-                        showError("Erro ao carregar informaç?es do github!");
-                }
+
+        reupi.fetch(function() {
+                reupi.fetchBranches(function() {
+                        var master = reupi.getBranchByName("master");
+
+                        
+                        showTree(master);
+                });
         });
-        
-        function configureClickInRow(row, file, shaParent) {
-                if (file.type == "tree") {
-                        row.click(function() {
-                                shaParents.push(shaParent);
-                                showTree(file.sha);
-                        });
-                } else if (file.type == "blob") {
-                        row.click(function() {
-                                shaParents.push(shaParent);
-                                showBlob(file.name, shaParent);
-                        });                        
-                }
-        }
         
         function clearAndShowBack() {
                 tree.empty();
@@ -51,46 +31,51 @@
                 });
         }
         
-        function showBlob(path, shaParent) {
+        function showFile(file, parent) {
                 clearAndShowBack();
-                obj.blob(path, shaParent, function(response) {
-                        if (response.blob) {
+                file.fetchContent(function(err, content) {
+                        if (err) {
+                                showError("Erro ao carregar arquivo "+file.path);
+                        } else {
                                 tree.append($("<tr>")
                                                 .append($("<td colspan='2'>")
-                                                        .append("<b>"+path+"</b><br>")
+                                                        .append("<b>"+file.path+"</b><br>")
                                                         .append($("<pre class='highlight'>")
-                                                                        .append(response.blob.data))));
-								$.SyntaxHighlighter.init();
-                        } else {
-                                showError("Erro ao carregar arquivo "+path);
+                                                                        .append(content.getRawContent()))));
+                                                                $.SyntaxHighlighter.init();
+
                         }
                 });
         }
         
-        function showTree(sha) {
+        function showTree(master) {
                 clearAndShowBack();
-                obj.tree(sha, function(response) {
-                        if (response.tree) {
-                                $.each(response.tree, function(index, file) {
-                                        var type;
-                                        
-                                        if (file.type == "tree") {
-                                                type = $("<i>").addClass("icon-folder-open");
-                                        } else if (file.type == "blob") {
-                                                type = $("<i>").addClass("icon-file");
-                                        }
-                                
+
+                master.fetchContents(function(err, response) {
+                        if (err) {
+                                showError("Erro ao carregar informações do github!");
+                        } else {
+                                master.eachContent(function(content){
+                                        var type = (content.type == "dir")?"icon-folder-open":"icon-file";
                                         var row = $("<tr class='row-file'>")
-                                                        .append($("<td class='type'>").append(type))
-                                                        .append($("<td class='name'>").text(file.name));
+                                                        .append($("<td class='type'>").append($("<i>").addClass(type)))
+                                                        .append($("<td class='name'>").text(content.name));
                                                         //.append($("td").text(file.description));
                                         
-                                        configureClickInRow(row, file, sha);
+                                        if (content.type == "dir") {
+                                                row.click(function() {
+                                                        shaParents.push(response);
+                                                        showTree(content);
+                                                });
+                                        } else if (content.type == "file") {
+                                                row.click(function() {
+                                                        shaParents.push(response);
+                                                        showFile(content, master);
+                                                });                        
+                                        }
                                         
                                         tree.append(row);
                                 });
-                        } else {
-                                showError("Erro ao carregar pasta");
                         }
                 });
         }
