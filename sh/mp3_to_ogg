@@ -1,0 +1,1 @@
+mpg321 *.mp3 -w raw && oggenc raw -o teste.ogg
