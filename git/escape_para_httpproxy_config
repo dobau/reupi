@@ -1,0 +1,2 @@
+Escape @ in http_proxy config from git
+-- Replacing @ with %40
