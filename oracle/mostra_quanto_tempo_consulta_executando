@@ -1,0 +1,6 @@
+select b.sql_text, trim(to_char(floor(a.LAST_CALL_ET/3600), '09')) || ':'
+       || ltrim(to_char(floor(mod(a.LAST_CALL_ET, 3600)/60), '09')) || ':'
+       || ltrim(to_char(mod(a.LAST_CALL_ET, 60), '09'))    RUNT 
+  from gv$session a, gv$sqlarea b
+   where a.sql_address=b.address
+  and a.username like '%RAFAEL%' and a.status = 'ACTIVE'
