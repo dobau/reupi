@@ -1,1 +1,2 @@
+// Bypass os erros de certificado do ssh
 AxisProperties.setProperty("axis.socketSecureFactory","org.apache.axis.components.net.SunFakeTrustSocketFactory");
