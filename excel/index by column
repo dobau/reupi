@@ -1,0 +1,4 @@
+-- portugues
+=ÍNDICE( MATRIZ; CORRESP(VALOR; MATRIZ; TIPO[0,-1]); COLUNA)
+
+=ÍNDICE( status_fat_ultima!$A$1:$B$6549; CORRESP(K2; status_fat_ultima!A:A; 0); 2)
