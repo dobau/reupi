@@ -1,0 +1,14 @@
+SELECT
+  S.USERNAME,
+  MIN(s.logon_time) first_logon ,
+  MAX(S.LOGON_TIME) LAST_LOGON ,
+  COUNT(1) nr_conexoes ,
+  S.STATUS
+FROM gv$session s ,
+  gv$process p
+WHERE P.INST_ID(+) = S.INST_ID
+AND P.ADDR(+)      = S.PADDR
+AND S.USERNAME    IS NOT NULL
+AND S.USERNAME LIKE '%APL_SITERS%'
+GROUP BY S.USERNAME, S.STATUS
+ORDER BY S.USERNAME;
