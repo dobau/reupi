@@ -1,0 +1,15 @@
+1 - Criar usuário
+2 - Dar Acessos
+  * Over-All
+    * Read
+  * Job
+    * Read
+    * Build
+3 - Configura Bitbucket 
+
+Endpoint: http://{username}:{APIToken}@{hostname}/{prefix_if_you_have_one}
+Module name: Whatever (I usually leave this one blank)
+Project name: The job name
+Token: The project token
+
+4 - Teste Manual: curl -u {username}:{APIToken} -X POST http://{hostname}{/prefix_if_you_have_one}/job/{project_name}/build?token={project_token}
