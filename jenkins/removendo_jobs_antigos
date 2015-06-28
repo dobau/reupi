@@ -1,0 +1,1 @@
+curl -u admin:fb453706b45086428a583756a13dc6f3 -X POST https://ci-orthoaxis.rhcloud.com/job/orthoaxis/[1-56]/doDelete
