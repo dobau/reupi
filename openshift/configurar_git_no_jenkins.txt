@@ -1,0 +1,13 @@
+1 - Criar arquivo git-ssh-wrapper.sh e adicionar na pasta ${OPENSHIFT_DATA_DIR}
+
+--git-ssh-wrapper.sh
+#!/bin/bash
+
+ID_RSA="${OPENSHIFT_DATA_DIR}.ssh/jenkins_id_rsa"
+
+ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $ID_RSA $1 $2
+
+2 - Configurar variável de ambiente no jenkins
+
+GIT_SSH
+${OPENSHIFT_DATA_DIR}/git-ssh-wrapper.sh
