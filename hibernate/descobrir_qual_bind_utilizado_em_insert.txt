@@ -1,0 +1,107 @@
+//SessionFactory.java
+// Configurar interceptor e listeners
+
+...
+AnnotationConfiguration config = new AnnotationConfiguration();
+config.setListener("pre-insert", new PreInsertListener());
+config.setListener("pre-update", new PreInsertListener());
+config.setInterceptor(new AuditInterceptor());
+
+sessionFactory = config.configure().buildSessionFactory();
+...
+
+
+
+
+// PreInsertListener.java
+// Criar listener para pre-insert e pre-update
+
+import org.hibernate.event.PreInsertEvent;
+import org.hibernate.event.PreInsertEventListener;
+import org.hibernate.event.PreUpdateEvent;
+import org.hibernate.event.PreUpdateEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class PreInsertListener implements PreInsertEventListener,  
+                                          PreUpdateEventListener 
+{
+	
+	private Logger logger = LoggerFactory.getLogger(PreInsertListener.class);
+	
+    @Override
+    public boolean onPreInsert(PreInsertEvent arg0) {
+    	logger.info(arg0.getEntity().toString());
+    	
+        return false;
+    }
+
+    @Override
+    public boolean onPreUpdate(PreUpdateEvent arg0) {
+        System.out.println("Update event......");
+        logger.info(arg0.getEntity().toString());
+        return false;
+    }
+}
+
+
+
+//AuditInterceptor.java
+// Criar classe de auditoria
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.hibernate.EmptyInterceptor;
+import org.hibernate.Transaction;
+import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class AuditInterceptor extends EmptyInterceptor {
+	
+	private Logger logger = LoggerFactory.getLogger(AuditInterceptor.class);
+	
+    public void onDelete(Object entity,
+                         Serializable id,
+                         Object[] state,
+                         String[] propertyNames,
+                         Type[] types) {
+        // do nothing
+    }
+
+    public boolean onFlushDirty(Object entity,
+                                Serializable id,
+                                Object[] currentState,
+                                Object[] previousState,
+                                String[] propertyNames,
+                                Type[] types) {
+
+    	logger.info(entity.toString());
+        return false;
+    }
+
+    public boolean onLoad(Object entity,
+                          Serializable id,
+                          Object[] state,
+                          String[] propertyNames,
+                          Type[] types) {
+    	logger.info(entity.toString());
+        return false;
+    }
+
+    public boolean onSave(Object entity,
+                          Serializable id,
+                          Object[] state,
+                          String[] propertyNames,
+                          Type[] types) {
+
+    	logger.info(entity.toString());
+        return false;
+    }
+
+    public void afterTransactionCompletion(Transaction tx) {
+    	logger.info("afterTransactionCompletion ---");
+    }
+
+}
