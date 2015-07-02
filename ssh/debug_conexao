@@ -1,0 +1,7 @@
+--Criar arquivo "config" em ./ssh e adicionar a linha abaixo
+
+LogLevel DEBUG1
+ou
+LogLevel DEBUG2
+ou
+LogLevel DEBUG3
