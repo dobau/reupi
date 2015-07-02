@@ -1,0 +1,4 @@
+-- Habilitar o ssh_agent no windows
+
+eval `ssh-agent -s`
+ssh-add
