@@ -2,8 +2,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.cgmp.apps.util.GerarSenha;
-
 public class Run extends Thread {
     
     private final String senha;
