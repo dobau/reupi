@@ -1,0 +1,1 @@
+jmap -dump:format=b,file=<NOME_ARQUIVO> <PID>"
