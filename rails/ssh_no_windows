@@ -1,0 +1,15 @@
+Actually the best way I found to solve this in windows for Ruby itself, not just one gem, is to do the following:
+
+Download http://curl.haxx.se/ca/cacert.pem into c:\railsinstaller\cacert.pem. Make sure you save it as a .pem file, rather than a text file.
+Go to your Computer -> Advanced Settings -> Environment Variables
+Create a new System Variable:
+
+Variable: SSL_CERT_FILE Value: C:\RailsInstaller\cacert.pem
+
+Close all your command prompts, including your Rails server command prompt, etc.
+
+Start a new ruby irb prompt, and try the following:
+
+$irb>require 'open-uri'
+$irb>open('https://www.gmail.com')
+It should all work now just fine.
