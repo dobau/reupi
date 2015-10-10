@@ -1,0 +1,61 @@
+sudo groupadd tomcat
+
+sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+
+cd ~
+
+wget http://mirror.sdunix.com/apache/tomcat/tomcat-8/v8.0.23/bin/apache-tomcat-8.0.23.tar.gz
+
+sudo mkdir /opt/tomcat
+sudo tar xvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
+
+cd /opt/tomcat
+
+sudo chgrp -R tomcat conf
+sudo chmod g+rwx conf
+sudo chmod g+r conf/*
+
+sudo chown -R tomcat work/ temp/ logs/
+
+sudo chgrp -R tomcat webapps
+sudo chmod g+rwx webapps
+sudo chmod g+r webapps/*
+
+
+
+Filename:
+
+/etc/systemd/system/tomcat.service
+
+Content:
+
+[Unit]
+Description=Tomcat 8 Server
+[Service]
+Type=forking
+User=tomcat
+Group=tomcat
+EnvironmentFile=/etc/conf.d/tomcat
+ExecStart=/opt/tomcat/bin/catalina.sh run
+ExecStopPost=/bin/rm -rf /opt/tomcat/temp/*
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+
+
+
+Filename:
+
+/etc/conf.d/tomcat
+
+Content:
+
+JAVA_HOME=/usr/lib/jvm/java-8-oracle
+CATALINA_HOME=/opt/tomcat
+JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
+CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC
+
+
+sudo systemctl enable tomcat
+
+sudo systemctl start tomcat
