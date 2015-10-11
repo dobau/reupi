@@ -59,3 +59,20 @@ CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC
 sudo systemctl enable tomcat
 
 sudo systemctl start tomcat
+
+
+
+
+apt-get update
+apt-get install nginx
+
+/etc/nginx/sites-enabled/default
+
+location / {
+    proxy_pass       http://localhost:8080;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+}
+
+
+service nginx restart
