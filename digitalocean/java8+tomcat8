@@ -36,8 +36,8 @@ Type=forking
 User=tomcat
 Group=tomcat
 EnvironmentFile=/etc/conf.d/tomcat
-ExecStart=/opt/tomcat/bin/catalina.sh run
-ExecStopPost=/bin/rm -rf /opt/tomcat/temp/*
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
 Restart=on-failure
 [Install]
 WantedBy=multi-user.target
