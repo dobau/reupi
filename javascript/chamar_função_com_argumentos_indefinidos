@@ -1,0 +1,5 @@
+	
+	var _fnDone = function() {
+	    if (typeof fnDone == 'function') {
+	        fnDone.apply(null, arguments); 
+	    }
