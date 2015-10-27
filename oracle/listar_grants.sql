@@ -1,1 +1,1 @@
-select * from dba_tab_privs where table_name='<table>';
+select * from dba_tab_privs where upper(table_name)='<table>';
