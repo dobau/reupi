@@ -1,0 +1,3 @@
+TO_CHAR(TRUNC(avg_secs/3600),'FM9900') || ':' ||
+    TO_CHAR(TRUNC(MOD(avg_secs,3600)/60),'FM00') || ':' ||
+    TO_CHAR(MOD(avg_secs,60),'FM00')
