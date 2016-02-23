@@ -1,1 +1,1 @@
-SELECT ADD_MONTHS(TRUNC(sysdate, 'MM'),-1), LAST_DAY(ADD_MONTHS(sysdate,-1)) FROM DUAL;
+SELECT ADD_MONTHS(TRUNC(sysdate, 'MM'),-1), LAST_DAY(ADD_MONTHS(trunc(sysdate),-1)) + .99999 FROM DUAL;
