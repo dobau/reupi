@@ -1,0 +1,2 @@
+-- Usar to_char na consulta
+select to_char(1123123123.2, 'FM9G999G999G999G990D00') from dual
