@@ -1,0 +1,14 @@
+    SELECT * FROM (
+        SELECT
+            TO_CHAR(data,'MM/YYYY') AS MES_ANO,
+            DECODE (tipo,1,'JURIDICA',2,'FISICA') AS TIPO_PESSOA,
+            codigo,
+            valor
+        FROM   viagem
+    ) T
+    PIVOT (
+      COUNT(DISTINCT codigo) AS QTDE_CLIENTES, 
+      sum(valor) AS TOTAL_CREDITOS
+      FOR (TIPO_PESSOA)
+      IN ('JURIDICA' AS JURIDICA, 'FISICA' AS FISICA)
+    )
