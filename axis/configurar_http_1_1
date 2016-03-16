@@ -9,4 +9,4 @@ ValePedagio port = service.getValePedagio(url);
 // Links (referências)
 // https://www.mail-archive.com/axis-user@xml.apache.org/msg08739.html
 // https://sourceforge.net/p/yxorp/bugs/7/
-// 
+// https://stackoverflow.com/questions/32626645/axis-1-4-change-to-use-http-1-1/32885150#32885150
