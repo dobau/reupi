@@ -1,0 +1,12 @@
+// No axis 1.4 se as requisições forem enviadas para HTTPS sem o keep-alive dá problema
+
+URL url = new URL("http://localhost:2000/wsvp/ValePedagio");
+//URL url = new URL("https://apphom.viafacil.com.br/wsvp/ValePedagio");
+ValePedagioServiceLocator service = new ValePedagioServiceLocator();
+ValePedagio port = service.getValePedagio(url);
+((Stub) port)._setProperty(MessageContext.HTTP_TRANSPORT_VERSION,HTTPConstants.HEADER_PROTOCOL_V11);
+
+// Links (referências)
+// https://www.mail-archive.com/axis-user@xml.apache.org/msg08739.html
+// https://sourceforge.net/p/yxorp/bugs/7/
+// 
