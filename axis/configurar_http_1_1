@@ -10,3 +10,6 @@ ValePedagio port = service.getValePedagio(url);
 // https://www.mail-archive.com/axis-user@xml.apache.org/msg08739.html
 // https://sourceforge.net/p/yxorp/bugs/7/
 // https://stackoverflow.com/questions/32626645/axis-1-4-change-to-use-http-1-1/32885150#32885150
+// http://mail-archives.apache.org/mod_mbox/axis-java-user/200707.mbox/%3C719aaced0707131228g589f6a7dwa401269373fff05f@mail.gmail.com%3E
+// https://www-10.lotus.com/ldd/pfwiki.nsf/dx/10022008035400PMWEBRCB.htm
+// http://www.nsftools.com/stubby/ApacheAxisClientTips.htm
