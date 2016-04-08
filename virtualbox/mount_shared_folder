@@ -1,0 +1,5 @@
+sudo mount -t vboxsf <folder_name> <path>
+
+Ex:
+
+sudo mount -t vboxsf rafael.basics /media/sf_shared
