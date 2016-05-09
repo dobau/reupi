@@ -1,0 +1,1 @@
+keytool -import -noprompt -trustcacerts -file   <certificate> -keystore "%JAVA_HOME%/jre/lib/security/cacerts" -storepass changeit
