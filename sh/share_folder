@@ -1,0 +1,11 @@
+# Editar arquivo /etc/smb/smb.conf
+# Substituir WORKGROUP com o domínio da rede
+
+# Verificar se o sambe está OK
+smbclient -L <HOST> -U <DOMINIO>/<USUARIO>
+
+# Conctar sambe, não precisa executar
+# smbclient \\\\<HOST>\\<SHARE_FOLDER> -U <DOMINIO>/<USUARIO>
+
+# Montar diretório
+sudo mount -t cifs -o username=<USUARIO> //<HOST>/<SHARE_FOLDER> <PASTA_A_SER_MONTADA>
