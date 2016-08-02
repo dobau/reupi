@@ -1,0 +1,2 @@
+log4j.logger.org.apache.axis.transport.http.HTTPSender=DEBUG
+log4j.logger.org.apache.axis.client.Call=TRACE
