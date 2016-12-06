@@ -1,0 +1,1 @@
+SELECT distinct to_char(sysdate + (level/86400),'HH24:MI:SS') FROM dual CONNECT BY Level <=(1*24*60*60)
