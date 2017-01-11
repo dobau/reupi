@@ -1,0 +1,26 @@
+JMX Remoto no TOMCAT com JDK 1.6
+
+1) Adiciona as linhas abaixo no arquivo catalina.sh
+
+# Monitora Tomcat
+JAVA_OPTS=" -Dcom.sun.management.jmxremote.port=16663
+            -Dcom.sun.management.jmxremote
+            -Dcom.sun.management.jmxremote.ssl=false
+            -Dcom.sun.management.jmxremote.authenticate=false
+            -Dcom.sun.management.jmxremote.local.only=false
+            -Djava.rmi.server.hostname=localhost
+            -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager $JAVA_OPTS"
+
+2) Inicia o tomcat
+
+3) Descobre quais as portas abertas para a conexão RMI
+
+	netstat -pl | grep java
+	
+4) Cria um tunnel utilizando o Putty com as duas portas do RMI apontando para o localhost
+
+5) Inicia o jvisualvm
+
+6) Threaddump
+
+	sudo -u tomcat_desenv jstack -l 10939 > jstack.out
