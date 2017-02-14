@@ -1,0 +1,1 @@
+git log --no-merges --committer="Rafael Alves" --name-only --pretty=format:"" | sort -u > c:\changed_files.txt
