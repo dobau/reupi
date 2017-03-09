@@ -1,0 +1,20 @@
+SELECT 
+'@Column(name="' || DBA_TAB_COLUMNS.COLUMN_NAME || '"' ||
+        CASE
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'varchar2' THEN ', length=' || TO_CHAR(DBA_TAB_COLUMNS.DATA_LENGTH)
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'int' THEN ',precision=' || TO_CHAR(DBA_TAB_COLUMNS.DATA_PRECISION) || ',scale=' || TO_CHAR(NVL(DBA_TAB_COLUMNS.DATA_SCALE,0))
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'number' THEN ',precision=' || TO_CHAR(DBA_TAB_COLUMNS.DATA_PRECISION) || ',scale=' || TO_CHAR(NVL(DBA_TAB_COLUMNS.DATA_SCALE,0))
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'date' THEN ', length=' || TO_CHAR(DBA_TAB_COLUMNS.DATA_LENGTH)
+        END ||
+
+')' || CHR(13) || CHR(10) ||
+'private ' ||
+        CASE
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'varchar2' THEN 'String'
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'int' THEN 'Integer'
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'number' THEN 'Long'
+               WHEN LOWER(DBA_TAB_COLUMNS.DATA_TYPE) = 'date' THEN 'Date'
+        END || ' ' || LOWER(SUBSTR(REPLACE(DBA_TAB_COLUMNS.COLUMN_NAME,'_',''),1,1)) || SUBSTR(REPLACE(INITCAP(DBA_TAB_COLUMNS.COLUMN_NAME),'_',''),2) || 
+';'
+FROM DBA_TAB_COLUMNS
+WHERE DBA_TAB_COLUMNS.TABLE_NAME = '<TABELA>'
