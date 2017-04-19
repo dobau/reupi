@@ -1,0 +1,7 @@
+1 - Extract all the files from jdk-XuXX-windows-x64.exe into the directory C:\JDK
+2 - Execute cd C:\JDK\.rsrc\1033\JAVA_CAB10
+3 - Execute extrac32 111
+4 - Unzip C:\JDK\.rsrc\JAVA_CAB10\tools.zip
+5 - cd C:\JDK\.rsrc\JAVA_CAB10\tools\
+6 - for /r %x in (*.pack) do .\bin\unpack200 -r "%x" "%~dx%~px%~nx.jar" (this will convert all .pack files into .jar files)
+7 - Copy all contents of C:\JDK\.rsrc\JAVA_CAB10\tools where you want your JDK to be
