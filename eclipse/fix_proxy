@@ -1,0 +1,3 @@
+Adicionar no eclipse.ini a configuração abaixo:
+
+-Dorg.eclipse.ecf.provider.filetransfer.excludeContributors=org.eclipse.ecf.provider.filetransfer.httpclient4
