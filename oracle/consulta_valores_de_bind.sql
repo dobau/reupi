@@ -4,9 +4,9 @@ SELECT
   b.name bind_name,
   b.value_string bind_value 
 FROM
-  v$sql t 
+  gv$sql t 
 JOIN
-  v$sql_bind_capture b  using (sql_id)
+  gv$sql_bind_capture b  using (sql_id)
 WHERE
   b.value_string is not null  
 AND
