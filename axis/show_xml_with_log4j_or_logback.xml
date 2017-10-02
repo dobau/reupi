@@ -1,0 +1,10 @@
+<logger name="org.apache.axis.transport.http.HTTPSender">
+   <level value="DEBUG"/>
+   <appender-ref ref="STDOUT"/>
+</logger>
+
+
+<logger name="org.apache.axis.client.Call">
+   <level value="TRACE"/>
+   <appender-ref ref="STDOUT"/>
+</logger>
