@@ -1,0 +1,5 @@
+#Erro de keytool: java.lang.IllegalArgumentException: unknown format type at
+
+$ export LANG="en_us"
+ou 
+$ export LC_ALL=en_us
