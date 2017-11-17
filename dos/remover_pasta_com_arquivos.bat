@@ -1,0 +1,1 @@
+rd <folder> /s /q
