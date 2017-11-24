@@ -1,3 +1,13 @@
 -Djavax.net.debug=all
 -Djavax.net.debug=ssl:handshake:verbose
 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2
+-Dhttp.agent="known agent"
+-Djava.net.useSystemProxies=true
+-Dhttp.proxyHost=proxy.example.com
+-Dhttp.proxyPort=8080
+-Dhttps.proxyHost=proxy.example.com
+-Dhttps.proxyPort=8080
+-Dhttps.proxyUser
+-Dhttps.proxyPassword
+-Dhttp.proxyUser
+-Dhttp.proxyPassword
