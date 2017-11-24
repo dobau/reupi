@@ -1,0 +1,1 @@
+openssl s_client -connect www.test.com:443 -prexit
