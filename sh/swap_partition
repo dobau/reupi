@@ -1,0 +1,9 @@
+You need to edit /etc/fstab and add the new swap partition.
+
+sudo nano /etc/fstab
+You need to add a line that looks like
+
+UUID=735b3be3-779c-4d21-a944-b033225f3ab4 none   swap    sw      0       0
+and you get the UUID using the command
+
+sudo blkid /dev/sda3
