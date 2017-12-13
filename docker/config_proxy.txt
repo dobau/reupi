@@ -1,0 +1,5 @@
+#Add the lines below in /etc/sysconfig/docker
+
+
+HTTP_PROXY="http://<host>:<port>"
+HTTPS_PROXY="http://<host>:<port>"
