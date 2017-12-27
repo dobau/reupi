@@ -1,0 +1,17 @@
+# ERROR
+# Bad Primary Partition 0: Partition ends in the final partial cylinder, press any key to exit cfdisk
+
+To fix this issue, i follow these steps
+
+1 - After “Warning!! Unsupported GPT (GUID Partition Table) detected. Use GNU Parted” , press alt+F2
+
+2 - command shell：
+
+parted /dev/sda
+mklabel msdos
+yes
+quit
+
+3 - reboot -f
+
+And you can install android-x86 with offical method
