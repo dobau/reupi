@@ -1,0 +1,6 @@
+# Configurar variáveis de ambiente:
+
+LD_LIBRARY_PATH  /u01/app/oracle/product/11.2.0/xe/lib:/usr/lib64
+TNS_ADMIN /u01/app/oracle/product/11.2.0/xe/network/admin
+
+# Copiar ojdbc.jar para pasta common/libs
