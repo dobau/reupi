@@ -1,1 +1,5 @@
-:#{component.namingContainer.parent.namingContainer.clientId}:form2:table2
+:#{component.namingContainer.parent.namingContainer.clientId}:componentId
+
+
+Ex:
+<p:commandButton action="..." update=":#{component.namingContainer.parent.namingContainer.clientId}:form2:table2" />
