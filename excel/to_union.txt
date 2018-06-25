@@ -1,0 +1,1 @@
+=SE(MOD(LIN();1000)=1;") UNION SELECT * FROM INFORMACOES where CNPJ in ('"&A1&"'";","&A1)
