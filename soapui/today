@@ -1,0 +1,1 @@
+${=new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date())}
