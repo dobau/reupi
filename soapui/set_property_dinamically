@@ -1,0 +1,16 @@
+def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context )
+
+def step = context.testCase.testSuite.testCases['cadastrarRotaTemporaria'].testSteps['cadastrarRotaTemporaria']
+//log.info step.httpRequest.requestContent
+//log.info step.httpRequest.responseContent
+
+log.info groovyUtils.getXmlHolder(step.httpRequest.requestContent).getNodeValue("//nome").toString()
+log.info groovyUtils.getXmlHolder(step.httpRequest.responseContent).getNodeValue("//nome").toString()
+
+rota = groovyUtils.getXmlHolder(step.httpRequest.responseContent).getNodeValue("//nome")
+
+def holder = groovyUtils.getXmlHolder("comprarViagem#Request")
+holder["//rota"] = rota
+
+holder.updateProperty()
+holder.requestContent = holder.xml
