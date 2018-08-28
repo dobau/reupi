@@ -1,0 +1,3 @@
+//Get the test step create which is present in Create&Repeat test case of the same suite
+def step = context.testCase.testSuite.testCases['Create&Repeat'].testSteps['create']
+log.info step.httpRequest.requestContent
