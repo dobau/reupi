@@ -1,0 +1,22 @@
+Application.ear
+     APP-INF/lib
+     META-INF
+          application.xml
+          weblogic-application.xml
+          weblogic-diagnostics.xml
+          MANIFEST.MF
+     EJB.jar
+          META-INF
+               ejb-jar.xml
+               weblogic-ejb-jar.xml
+               persistence.xml
+               MANIFEST>MF
+          packages containing Java classes
+     Web.war
+          META-INF
+               MANIFEST.MF
+          WEB-INF
+               classes (packages containing Java classes)
+               lib
+               web.xml
+               weblogic.xml
