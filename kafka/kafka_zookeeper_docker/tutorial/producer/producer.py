@@ -1,4 +1,4 @@
-rom kafka import KafkaProducer
+from kafka import KafkaProducer
 import json
 import random
 from time import sleep
