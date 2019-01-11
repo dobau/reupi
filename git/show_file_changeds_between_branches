@@ -1,0 +1,1 @@
+ git log -p --no-merges --committer="[Carlos Mandarim|carlos.ewave|Ewave]" --name-only --pretty=format:"" uat..origin/pre-prod | sort -u
