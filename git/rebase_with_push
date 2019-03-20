@@ -1,0 +1,2 @@
+git rebase <branch1>
+git push origin <branch2> --force-with-lease
