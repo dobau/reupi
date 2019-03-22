@@ -1,0 +1,1 @@
+encoding-checker -p "**/*.jsp" -i "windows-1252"
