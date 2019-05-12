@@ -1,0 +1,2 @@
+ssh-add <key>.pem
+ssh -A -i ubuntu@<ip>
