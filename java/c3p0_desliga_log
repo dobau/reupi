@@ -1,0 +1,4 @@
+    	// Alterando nível de log do c3p0
+    	Properties p = new Properties(System.getProperties());
+        p.put("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
+        p.put("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "SEVERE"); // or any other
