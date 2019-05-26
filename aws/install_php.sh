@@ -1,5 +1,4 @@
-#EC2
-
+#!/bin/bash
 yum -y install httpd php
 chkconfing httpd on
 service httpd start
