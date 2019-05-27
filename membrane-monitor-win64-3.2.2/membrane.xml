@@ -1,0 +1,62 @@
+<?xml version = "1.0" ?>
+<proxies>
+  <serviceProxy name="MANARIM"
+                 port="9091">
+    <path isRegExp="true">.*ConsultaTransportadorPS.*</path>
+    <target host="10.1.65.143"
+             port="7001" />
+  </serviceProxy>
+  <serviceProxy name="OSB02VP"
+                 port="9091">
+    <target host="osb02vp.semparar.com.br" />
+  </serviceProxy>
+  <serviceProxy name="VP-BSS-UAT"
+                 port="9091">
+    <target host="billinghom.cgmp-osa.com.br"
+             port="42001" />
+  </serviceProxy>
+  <serviceProxy name="VP-BSS-HOM"
+                 port="9091">
+    <target host="osb01vp.pprd.semparar.com.br" />
+  </serviceProxy>
+  <serviceProxy name="VP-BSS-PROD"
+                 port="9091">
+    <request>
+      <groovy>      </groovy>
+    </request>
+    <target host="osb01vp.semparar.com.br" />
+  </serviceProxy>
+  <serviceProxy name="CICERO"
+                 port="9091">
+    <path isRegExp="true">.*SalvaLogVPPS.*|.*ConsultaPracaPedagioPS.*|.*ConsultaRotaPS.*</path>
+    <target host="10.1.65.99"
+             port="7004" />
+  </serviceProxy>
+  <serviceProxy name="OSBVP02"
+                 port="9091">
+    <target host="osbvp02.semparar.com.br" />
+  </serviceProxy>
+  <serviceProxy name=""
+                 port="2005">
+    <target host="query.pagador.com.br"
+             port="443" />
+  </serviceProxy>
+  <global>
+    <router adjustHostHeader="true"
+             adjustContentLength="true" />
+    <monitor-gui indentMessage="true"
+                  autoTrack="false" />
+    <proxyConfiguration active="false"
+                         authentication="false"
+                         host=""
+                         port="0"
+                         password=""
+                         username="" />
+    <security>
+      <keystore location=""
+                 password="" />
+      <truststore location=""
+                   password="" />
+    </security>
+  </global>
+</proxies>
