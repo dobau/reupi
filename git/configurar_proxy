@@ -1,2 +1,6 @@
 -- Configurando proxy
 git config --global http.proxy http://proxyuser:proxypwd@proxy.server.com:8080
+
+-- Removendo configuração
+git config --global --unset http.proxy
+git config --global --unset https.proxy
