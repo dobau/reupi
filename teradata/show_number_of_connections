@@ -1,0 +1,7 @@
+SELECT Username ,
+       LogonSequenceNo ,
+       PARTITION AS Utility_Type,
+       COUNT ( * ) AS num_of_sessions    
+FROM Dbc.Sessioninfo        
+where UPPER(Username) = '<USER>'
+GROUP BY 1 , 2 , 3 ;
