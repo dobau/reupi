@@ -1,0 +1,3 @@
+Select *  FROM TABLE (MonitorSession(-1,'*',0)) AS T1
+Where  AMPState='Active'
+  and USERNAME = '<USER>';
