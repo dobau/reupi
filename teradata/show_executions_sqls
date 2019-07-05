@@ -1,3 +1,4 @@
-Select *  FROM TABLE (MonitorSession(-1,'*',0)) AS T1
-Where  AMPState='Active'
-  and USERNAME = '<USER>';
+SELECT * FROM TABLE (MONITORSESSION(-1,'*',0)) AS ms
+WHERE (PEState  <> 'IDLE'
+   OR AMPState <> 'IDLE')
+   and UPPER(Username) = '<USER>';
