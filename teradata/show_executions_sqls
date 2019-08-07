@@ -2,3 +2,7 @@ SELECT * FROM TABLE (MONITORSESSION(-1,'*',0)) AS ms
 WHERE (PEState  <> 'IDLE'
    OR AMPState <> 'IDLE')
    and UPPER(Username) = '<USER>';
+
+
+SELECT *
+  FROM TABLE (MonitorSQLText({HostID}, {SessionNo}, {RunVprocNo})) AS T2;
