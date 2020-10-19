@@ -1,0 +1,4 @@
+for file in "model_"*;
+do
+    mv "$file" "${file#model_}"
+done
