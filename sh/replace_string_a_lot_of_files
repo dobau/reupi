@@ -1,6 +1,6 @@
 for file in *.go;
 do
-    sed -ir "s/package\sswagger/package model/" "$file"
+    sed -i'.gor' 's/package swagger/package model/g' $file
 done
 
 
