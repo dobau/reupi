@@ -1,0 +1,39 @@
+# https://nginx.viraptor.info/
+
+server {
+ listen       80;
+ server_name  domain2.com www.domain2.com;
+ access_log   logs/domain2.access.log  main;
+ 
+ location ~ ^/(images|javascript|js|css|flash|media|static)/
+ {
+  root    /var/www/virtual/big.server.com/htdocs;
+  expires 30d;
+ }
+
+# exact match
+location = / {
+  proxy_pass      http://127.0.0.1:8080;
+}
+
+# prefix match
+location / {
+  proxy_pass      http://127.0.0.1:8080;
+}
+
+# prefix match
+location /documents/ {
+  proxy_pass      http://127.0.0.1:8080;
+}
+
+# priority over regex expressions
+location ^~ /images/ {
+  proxy_pass      http://127.0.0.1:8080;
+}
+
+# match regex case insensitive
+location ~* \.(gif|jpg|jpeg)$ {
+  proxy_pass      http://127.0.0.1:8080;
+}
+
+}
