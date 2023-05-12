@@ -1,0 +1,13 @@
+## Configurar o arquivo ~/.ssh/config com o conteúdo abaixo
+
+#dobau account
+Host github.com-dobau
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519_2
+
+#dobau2 account
+Host github.com-dobau2
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519
